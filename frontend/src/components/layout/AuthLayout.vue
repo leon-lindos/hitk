@@ -1,27 +1,11 @@
 <template>
-  <div class="relative flex min-h-screen items-center justify-center overflow-hidden p-4">
+  <div class="fyro-auth relative flex min-h-screen items-center justify-center overflow-hidden p-4">
     <!-- Background -->
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-gray-50 via-primary-50/30 to-gray-100 dark:from-dark-950 dark:via-dark-900 dark:to-dark-950"
-    ></div>
+    <div class="fyro-auth-paper absolute inset-0"></div>
 
     <!-- Decorative Elements -->
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
-      <!-- Gradient Orbs -->
-      <div
-        class="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-primary-400/20 blur-3xl"
-      ></div>
-      <div
-        class="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-primary-500/15 blur-3xl"
-      ></div>
-      <div
-        class="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-300/10 blur-3xl"
-      ></div>
-
-      <!-- Grid Pattern -->
-      <div
-        class="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.03)_1px,transparent_1px)] bg-[size:64px_64px]"
-      ></div>
+      <div class="fyro-auth-signal absolute inset-0"></div>
     </div>
 
     <!-- Content Container -->
@@ -31,21 +15,21 @@
         <!-- Custom Logo or Default Logo -->
         <template v-if="settingsLoaded">
           <div
-            class="mb-4 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl shadow-lg shadow-primary-500/30"
+            class="fyro-auth-logo mb-4 inline-flex h-20 w-20 items-center justify-center overflow-hidden"
           >
             <img :src="siteLogo || '/logo.svg'" alt="Logo" class="h-full w-full object-contain" />
           </div>
-          <h1 class="text-gradient mb-2 text-3xl font-bold">
+          <h1 class="fyro-auth-title mb-2 text-3xl font-normal">
             {{ siteName }}
           </h1>
-          <p class="text-sm text-gray-500 dark:text-dark-400">
+          <p class="fyro-auth-subtitle text-sm">
             {{ siteSubtitle }}
           </p>
         </template>
       </div>
 
       <!-- Card Container -->
-      <div class="card-glass rounded-2xl p-8 shadow-glass">
+      <div class="fyro-auth-card rounded-sm p-8">
         <slot />
       </div>
 
@@ -55,7 +39,7 @@
       </div>
 
       <!-- Copyright -->
-      <div class="mt-8 text-center text-xs text-gray-400 dark:text-dark-500">
+      <div class="fyro-auth-footer mt-8 text-center text-xs">
         &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
       </div>
     </div>
@@ -66,12 +50,13 @@
 import { computed, onMounted } from 'vue'
 import { useAppStore } from '@/stores'
 import { sanitizeUrl } from '@/utils/url'
+import { BRAND } from '@/config/brand'
 
 const appStore = useAppStore()
 
-const siteName = computed(() => appStore.siteName || 'Sub2API')
-const siteLogo = computed(() => sanitizeUrl(appStore.siteLogo || '', { allowRelative: true, allowDataUrl: true }))
-const siteSubtitle = computed(() => appStore.cachedPublicSettings?.site_subtitle || 'Subscription to API Conversion Platform')
+const siteName = computed(() => appStore.siteName || BRAND.name)
+const siteLogo = computed(() => sanitizeUrl(appStore.siteLogo || BRAND.logo, { allowRelative: true, allowDataUrl: true }))
+const siteSubtitle = computed(() => appStore.cachedPublicSettings?.site_subtitle || BRAND.subtitle)
 const settingsLoaded = computed(() => appStore.publicSettingsLoaded)
 
 const currentYear = computed(() => new Date().getFullYear())
@@ -82,7 +67,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.text-gradient {
-  @apply bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent;
-}
+.fyro-auth { color: #242725; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+.fyro-auth-paper { background: #f4f0e8; }
+.fyro-auth-signal { opacity: .2; background: radial-gradient(ellipse at 20% 28%, transparent 0 12%, rgba(182,58,43,.14) 12.2% 12.4%, transparent 12.6%), radial-gradient(ellipse at 84% 72%, transparent 0 16%, rgba(36,39,37,.1) 16.2% 16.35%, transparent 16.6%); }
+.fyro-auth-logo { border-radius: 8px; mix-blend-mode: multiply; }
+.fyro-auth-logo img { width: 140%; height: 140%; object-fit: contain; }
+.fyro-auth-title { color: #242725; font-family: "Songti SC", "STSong", "Noto Serif SC", Georgia, serif; letter-spacing: .02em; }
+.fyro-auth-subtitle, .fyro-auth-footer { color: #61665e; }
+.fyro-auth-card { background: rgba(250,248,242,.82); border: 1px solid rgba(36,39,37,.14); box-shadow: 0 20px 50px rgba(36,39,37,.09); }
+:global(.dark) .fyro-auth-paper { background: #1e211f; }
+:global(.dark) .fyro-auth { color: #f4f0e8; }
+:global(.dark) .fyro-auth-title { color: #f4f0e8; }
+:global(.dark) .fyro-auth-card { background: rgba(36,39,37,.92); border-color: rgba(244,240,232,.18); }
+:global(.dark) .fyro-auth-logo { mix-blend-mode: normal; background: #f4f0e8; }
 </style>
