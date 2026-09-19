@@ -87,7 +87,7 @@
   }
 
   .btn-secondary {
-    @apply bg-white dark:bg-dark-800;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
     @apply text-gray-700 dark:text-gray-200;
     @apply border border-gray-200 dark:border-dark-600;
     @apply shadow-sm hover:bg-gray-50 dark:hover:bg-dark-700;
@@ -212,23 +212,23 @@
 
   /* ============ 玻璃效果 ============ */
   .glass {
-    @apply bg-white/80 backdrop-blur-xl dark:bg-dark-800/80;
+    @apply bg-[#faf8f2]/92 dark:bg-dark-800/92;
+    @apply border-gray-200 dark:border-dark-700;
   }
 
   .glass-card {
-    @apply bg-white/70 dark:bg-dark-800/70;
-    @apply backdrop-blur-xl;
-    @apply rounded-2xl;
-    @apply border border-white/20 dark:border-dark-700/50;
-    @apply shadow-glass;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply rounded-lg;
+    @apply border border-gray-200 dark:border-dark-700;
+    @apply shadow-card;
     @apply transition-all duration-300;
   }
 
   /* ============ 卡片样式 ============ */
   .card {
-    @apply bg-white dark:bg-dark-800/50;
-    @apply rounded-2xl;
-    @apply border border-gray-100 dark:border-dark-700/50;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply rounded-lg;
+    @apply border border-gray-200 dark:border-dark-700;
     @apply shadow-card;
     @apply transition-all duration-300;
   }
@@ -239,10 +239,9 @@
   }
 
   .card-glass {
-    @apply bg-white/70 dark:bg-dark-800/70;
-    @apply backdrop-blur-xl;
-    @apply border border-white/20 dark:border-dark-700/50;
-    @apply shadow-glass;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply border border-gray-200 dark:border-dark-700;
+    @apply shadow-card;
   }
 
   .card-header {
@@ -371,8 +370,8 @@
   /* ============ 下拉菜单 ============ */
   .dropdown {
     @apply absolute z-50;
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-xl;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply rounded-lg;
     @apply border border-gray-200 dark:border-dark-700;
     @apply shadow-lg;
     @apply py-1;
@@ -397,8 +396,8 @@
   .modal-content {
     @apply w-full;
     @apply max-h-[95vh] sm:max-h-[90vh];
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-2xl shadow-2xl;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply rounded-lg shadow-2xl;
     @apply border border-gray-200 dark:border-dark-700;
     @apply flex flex-col;
   }
@@ -490,7 +489,7 @@
   .dialog-container {
     @apply flex w-full flex-col;
     @apply max-h-[90vh];
-    @apply rounded-2xl bg-white dark:bg-dark-800;
+    @apply rounded-lg bg-[#faf8f2] dark:bg-dark-800;
     @apply shadow-xl;
   }
 
@@ -513,8 +512,8 @@
   .toast {
     @apply fixed right-4 top-4 z-[100];
     @apply min-w-[320px] max-w-md;
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-xl shadow-lg;
+    @apply bg-[#faf8f2] dark:bg-dark-800;
+    @apply rounded-lg shadow-lg;
     @apply border-l-4;
     @apply p-4;
     @apply animate-slide-in-right;
@@ -539,7 +538,7 @@
   /* ============ 侧边栏 ============ */
   .sidebar {
     @apply fixed inset-y-0 left-0 z-40;
-    @apply w-64 bg-white dark:bg-dark-900;
+    @apply w-64 bg-[#faf8f2] dark:bg-dark-900;
     @apply border-r border-gray-200 dark:border-dark-800;
     @apply flex flex-col;
     @apply transition-transform duration-300;
@@ -648,7 +647,7 @@
   }
 
   .tab-active {
-    @apply bg-white dark:bg-dark-700;
+    @apply bg-[#faf8f2] dark:bg-dark-700;
     @apply text-gray-900 dark:text-white;
     @apply shadow-sm;
   }
