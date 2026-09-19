@@ -16,7 +16,7 @@
   <div
     v-else-if="compactHomeEnabled"
     data-testid="compact-home"
-    class="flex min-h-screen flex-col bg-gray-50 text-gray-900 dark:bg-dark-950 dark:text-white"
+    class="fyro-public fyro-compact flex min-h-screen flex-col"
   >
     <header class="border-b border-gray-200 px-4 py-4 sm:px-6 dark:border-dark-800">
       <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 sm:gap-4">
@@ -93,39 +93,21 @@
   <!-- Default Home Page -->
   <div
     v-else
-    class="relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-br from-gray-50 via-primary-50/30 to-gray-100 dark:from-dark-950 dark:via-dark-900 dark:to-dark-950"
+    class="fyro-public fyro-home relative flex min-h-screen flex-col"
   >
-    <!-- Background Decorations -->
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
-      <div
-        class="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-primary-400/20 blur-3xl"
-      ></div>
-      <div
-        class="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-primary-500/15 blur-3xl"
-      ></div>
-      <div
-        class="absolute left-1/3 top-1/4 h-72 w-72 rounded-full bg-primary-300/10 blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-primary-400/10 blur-3xl"
-      ></div>
-      <div
-        class="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.03)_1px,transparent_1px)] bg-[size:64px_64px]"
-      ></div>
-    </div>
-
     <!-- Header -->
     <header class="relative z-20 px-6 py-4">
-      <nav class="mx-auto flex max-w-6xl items-center justify-between">
+      <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
         <!-- Logo -->
-        <div class="flex items-center">
-          <div class="h-10 w-10 overflow-hidden rounded-xl shadow-md">
+        <div class="flex min-w-0 items-center gap-3">
+          <div class="h-11 w-11 shrink-0 overflow-hidden rounded-sm">
             <img :src="siteLogo || '/logo.svg'" alt="Logo" class="h-full w-full object-contain" />
           </div>
+          <span class="fyro-home-brand">{{ siteName }}</span>
         </div>
 
         <!-- Nav Actions -->
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
           <!-- Language Switcher -->
           <LocaleSwitcher />
 
@@ -203,11 +185,11 @@
     <main class="relative z-10 flex-1 px-6 py-16">
       <div class="mx-auto max-w-6xl">
         <!-- Hero Section - Left/Right Layout -->
-        <div class="mb-12 flex flex-col items-center justify-between gap-12 lg:flex-row lg:gap-16">
+        <div class="fyro-hero mb-12 grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <!-- Left: Text Content -->
-          <div class="flex-1 text-center lg:text-left">
+          <div class="min-w-0 text-center lg:text-left">
             <h1
-              class="mb-4 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"
+              class="fyro-home-title mb-5 text-4xl md:text-5xl lg:text-6xl"
             >
               {{ siteName }}
             </h1>
@@ -219,7 +201,7 @@
             <div>
               <router-link
                 :to="isAuthenticated ? dashboardPath : '/login'"
-                class="btn btn-primary px-8 py-3 text-base shadow-lg shadow-primary-500/30"
+                class="btn btn-primary px-8 py-3 text-base"
               >
                 {{ isAuthenticated ? t('home.goToDashboard') : t('home.getStarted') }}
                 <Icon name="arrowRight" size="md" class="ml-2" :stroke-width="2" />
@@ -227,41 +209,8 @@
             </div>
           </div>
 
-          <!-- Right: Terminal Animation -->
-          <div class="flex flex-1 justify-center lg:justify-end">
-            <div class="terminal-container">
-              <div class="terminal-window">
-                <!-- Window header -->
-                <div class="terminal-header">
-                  <div class="terminal-buttons">
-                    <span class="btn-close"></span>
-                    <span class="btn-minimize"></span>
-                    <span class="btn-maximize"></span>
-                  </div>
-                  <span class="terminal-title">terminal</span>
-                </div>
-                <!-- Terminal content -->
-                <div class="terminal-body">
-                  <div class="code-line line-1">
-                    <span class="code-prompt">$</span>
-                    <span class="code-cmd">curl</span>
-                    <span class="code-flag">-X POST</span>
-                    <span class="code-url">/v1/messages</span>
-                  </div>
-                  <div class="code-line line-2">
-                    <span class="code-comment"># Routing to upstream...</span>
-                  </div>
-                  <div class="code-line line-3">
-                    <span class="code-success">200 OK</span>
-                    <span class="code-response">{ "content": "Hello!" }</span>
-                  </div>
-                  <div class="code-line line-4">
-                    <span class="code-prompt">$</span>
-                    <span class="cursor"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="fyro-hero-art" aria-hidden="true">
+            <img :src="BRAND.illustration" alt="" width="960" height="640" fetchpriority="high" />
           </div>
         </div>
 
@@ -294,15 +243,15 @@
         </div>
 
         <!-- Features Grid -->
-        <div class="mb-12 grid gap-6 md:grid-cols-3">
+        <div class="fyro-features mb-16 grid gap-8 md:grid-cols-3">
           <!-- Feature 1: Unified Gateway -->
           <div
-            class="group rounded-2xl border border-gray-200/50 bg-white/60 p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 dark:border-dark-700/50 dark:bg-dark-800/60"
+            class="fyro-feature"
           >
             <div
-              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30 transition-transform group-hover:scale-110"
+              class="fyro-feature-icon mb-5 flex h-10 w-10 items-center justify-center"
             >
-              <Icon name="server" size="lg" class="text-white" />
+              <Icon name="server" size="lg" />
             </div>
             <h3 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
               {{ t('home.features.unifiedGateway') }}
@@ -314,13 +263,13 @@
 
           <!-- Feature 2: Account Pool -->
           <div
-            class="group rounded-2xl border border-gray-200/50 bg-white/60 p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 dark:border-dark-700/50 dark:bg-dark-800/60"
+            class="fyro-feature"
           >
             <div
-              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/30 transition-transform group-hover:scale-110"
+              class="fyro-feature-icon mb-5 flex h-10 w-10 items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-white"
+                class="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -343,13 +292,13 @@
 
           <!-- Feature 3: Billing & Quota -->
           <div
-            class="group rounded-2xl border border-gray-200/50 bg-white/60 p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 dark:border-dark-700/50 dark:bg-dark-800/60"
+            class="fyro-feature"
           >
             <div
-              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg shadow-purple-500/30 transition-transform group-hover:scale-110"
+              class="fyro-feature-icon mb-5 flex h-10 w-10 items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-white"
+                class="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -582,164 +531,21 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Terminal Container */
-.terminal-container {
-  position: relative;
-  display: inline-block;
-}
-
-/* Terminal Window */
-.terminal-window {
-  width: 420px;
-  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-  border-radius: 14px;
-  box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
-  transition: transform 0.3s ease;
-}
-
-.terminal-window:hover {
-  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-4px);
-}
-
-/* Terminal Header */
-.terminal-header {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(30, 41, 59, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.terminal-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.terminal-buttons span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.btn-close {
-  background: #ef4444;
-}
-.btn-minimize {
-  background: #eab308;
-}
-.btn-maximize {
-  background: #22c55e;
-}
-
-.terminal-title {
-  flex: 1;
-  text-align: center;
-  font-size: 12px;
-  font-family: ui-monospace, monospace;
-  color: #64748b;
-  margin-right: 52px;
-}
-
-/* Terminal Body */
-.terminal-body {
-  padding: 20px 24px;
-  font-family: ui-monospace, 'Fira Code', monospace;
-  font-size: 14px;
-  line-height: 2;
-}
-
-.code-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: line-appear 0.5s ease forwards;
-}
-
-.line-1 {
-  animation-delay: 0.3s;
-}
-.line-2 {
-  animation-delay: 1s;
-}
-.line-3 {
-  animation-delay: 1.8s;
-}
-.line-4 {
-  animation-delay: 2.5s;
-}
-
-@keyframes line-appear {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.code-prompt {
-  color: #22c55e;
-  font-weight: bold;
-}
-.code-cmd {
-  color: #38bdf8;
-}
-.code-flag {
-  color: #a78bfa;
-}
-.code-url {
-  color: #14b8a6;
-}
-.code-comment {
-  color: #64748b;
-  font-style: italic;
-}
-.code-success {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.15);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-.code-response {
-  color: #fbbf24;
-}
-
-/* Blinking Cursor */
-.cursor {
-  display: inline-block;
-  width: 8px;
-  height: 16px;
-  background: #22c55e;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Dark mode adjustments */
-:deep(.dark) .terminal-window {
-  box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(20, 184, 166, 0.2),
-    0 0 40px rgba(20, 184, 166, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.fyro-home-brand { font-family: var(--fyro-display); font-size: 1.125rem; overflow-wrap: anywhere; }
+.fyro-home-title { font-family: var(--fyro-display); font-weight: 400; line-height: 1.25; overflow-wrap: anywhere; }
+.fyro-hero { min-height: 390px; }
+.fyro-hero-art { width: 100%; max-width: 520px; margin: auto; isolation: isolate; }
+.fyro-hero-art img { width: 100%; height: auto; mix-blend-mode: multiply; }
+.fyro-feature { border-top: 1px solid var(--fyro-line); padding-top: 1.5rem; }
+.fyro-feature-icon { color: var(--fyro-accent); }
+.fyro-feature-icon :deep(svg) { color: inherit; }
+.fyro-feature h3 { font-family: var(--fyro-display); font-size: 1.375rem; font-weight: 500; }
+:global(.dark) .fyro-hero-art { background: #f4f0e8; border-radius: 4px; }
+:global(.dark) .fyro-hero-art img { mix-blend-mode: normal; }
+@media (max-width: 639px) {
+  .fyro-home > header { padding: 1rem; }
+  .fyro-home > main { padding: 2rem 1.25rem; }
+  .fyro-hero { min-height: auto; }
+  .fyro-hero-art { max-width: 320px; }
 }
 </style>

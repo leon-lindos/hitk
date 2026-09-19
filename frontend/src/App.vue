@@ -9,6 +9,7 @@ import AnnouncementPopup from '@/components/common/AnnouncementPopup.vue'
 import { useAppStore, useAuthStore, useSubscriptionStore, useAnnouncementStore, useAdminComplianceStore, useAdminSettingsStore } from '@/stores'
 import { getSetupStatus } from '@/api/setup'
 import { updateFavicon } from '@/utils/branding'
+import { BRAND } from '@/config/brand'
 import { FeatureFlags, isFeatureFlagEnabled } from '@/utils/featureFlags'
 import { resolveSiteBillingMode } from '@/utils/siteBillingMode'
 
@@ -36,7 +37,7 @@ watch(
   () => appStore.siteLogo,
   (newLogo) => {
     if (newLogo) {
-      updateFavicon(newLogo)
+      updateFavicon(newLogo === BRAND.logo ? BRAND.favicon : newLogo)
     }
   },
   { immediate: true }

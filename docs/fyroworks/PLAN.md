@@ -29,10 +29,10 @@
 
 ## 待办
 
-- [ ] 完成本地源码基线及 origin / upstream 关联。
-- [ ] 完成品牌素材、首页、认证页和公共界面样式。
-- [ ] 检查构建、相关测试、桌面/手机和深色模式。
-- [ ] Oracle：提供目标机器 IP、SSH 用户名、本地私钥路径，确认系统与资源。
+- [x] 完成本地源码基线及 origin / upstream 关联（origin = leon-lindos/sub2api，upstream = Wei-Shaw/sub2api，工作分支 fyroworks-brand）。
+- [x] 完成品牌素材、首页、认证页和公共界面样式（2026-09-19：纸面变量、首页插画主视觉、登录左右布局、移动端/深色模式；原图 PNG 留在 brand-source，线上用 WebP）。
+- [x] 检查相关测试、桌面/手机和深色模式（2026-09-19：品牌单测 16 通过；本地 Vite 预览核对首页/登录的桌面、手机、深色。生产构建未跑。无后端时公开设置接口 500，页面回退品牌默认值）。
+- [ ] Oracle：机器已清空，需重新提供目标 IP 和 SSH 用户名。本地私钥仍在 `oracle-jp-secret/ssh-key-2026-09-18.key`（已 gitignore）。
 - [ ] Oracle：准备容器、数据库、缓存、持久化目录与备份。
 - [ ] Oracle：确认域名、DNS 和 HTTPS，构建并部署本 fork。
 - [ ] Oracle：完成登录、密钥、真实模型请求、流式响应与重启持久化验收。

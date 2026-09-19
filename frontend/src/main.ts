@@ -8,6 +8,7 @@ import { updateFavicon } from '@/utils/branding'
 import { BRAND } from '@/config/brand'
 import { isIOSDevice } from '@/utils/device'
 import './style.css'
+import './styles/fyroworks.css'
 
 function initIOSViewportZoomFix() {
   // iOS Safari 在输入框字号小于 16px 时聚焦会自动放大页面，且失焦后不会恢复。
@@ -49,7 +50,7 @@ async function bootstrap() {
   if (appStore.siteName && appStore.siteName !== BRAND.name) {
     document.title = `${appStore.siteName} - AI API Gateway`
   }
-  updateFavicon(appStore.siteLogo)
+  updateFavicon(appStore.siteLogo === BRAND.logo ? BRAND.favicon : appStore.siteLogo)
 
   await initI18n()
 

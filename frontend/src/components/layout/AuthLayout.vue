@@ -1,48 +1,22 @@
 <template>
-  <div class="fyro-auth relative flex min-h-screen items-center justify-center overflow-hidden p-4">
-    <!-- Background -->
-    <div class="fyro-auth-paper absolute inset-0"></div>
-
-    <!-- Decorative Elements -->
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
-      <div class="fyro-auth-signal absolute inset-0"></div>
+  <div class="fyro-public fyro-auth">
+    <div class="fyro-auth-shell">
+      <section class="fyro-auth-intro">
+        <router-link to="/" class="fyro-auth-brand">
+          <img :src="siteLogo || '/logo.svg'" :alt="siteName" width="64" height="64" />
+          <h1>{{ siteName }}</h1>
+        </router-link>
+        <p class="fyro-auth-subtitle">{{ siteSubtitle }}</p>
+        <div class="fyro-auth-art" aria-hidden="true">
+          <img :src="BRAND.illustration" alt="" width="960" height="640" />
+        </div>
+      </section>
+      <main class="fyro-auth-panel">
+        <div class="fyro-auth-card"><slot /></div>
+        <div class="fyro-auth-links"><slot name="footer" /></div>
+      </main>
     </div>
-
-    <!-- Content Container -->
-    <div class="relative z-10 w-full max-w-md">
-      <!-- Logo/Brand -->
-      <div class="mb-8 text-center">
-        <!-- Custom Logo or Default Logo -->
-        <template v-if="settingsLoaded">
-          <div
-            class="fyro-auth-logo mb-4 inline-flex h-20 w-20 items-center justify-center overflow-hidden"
-          >
-            <img :src="siteLogo || '/logo.svg'" alt="Logo" class="h-full w-full object-contain" />
-          </div>
-          <h1 class="fyro-auth-title mb-2 text-3xl font-normal">
-            {{ siteName }}
-          </h1>
-          <p class="fyro-auth-subtitle text-sm">
-            {{ siteSubtitle }}
-          </p>
-        </template>
-      </div>
-
-      <!-- Card Container -->
-      <div class="fyro-auth-card rounded-sm p-8">
-        <slot />
-      </div>
-
-      <!-- Footer Links -->
-      <div class="mt-6 text-center text-sm">
-        <slot name="footer" />
-      </div>
-
-      <!-- Copyright -->
-      <div class="fyro-auth-footer mt-8 text-center text-xs">
-        &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
-      </div>
-    </div>
+    <footer class="fyro-auth-footer">&copy; {{ currentYear }} {{ siteName }}</footer>
   </div>
 </template>
 
@@ -57,7 +31,6 @@ const appStore = useAppStore()
 const siteName = computed(() => appStore.siteName || BRAND.name)
 const siteLogo = computed(() => sanitizeUrl(appStore.siteLogo || BRAND.logo, { allowRelative: true, allowDataUrl: true }))
 const siteSubtitle = computed(() => appStore.cachedPublicSettings?.site_subtitle || BRAND.subtitle)
-const settingsLoaded = computed(() => appStore.publicSettingsLoaded)
 
 const currentYear = computed(() => new Date().getFullYear())
 
@@ -67,17 +40,28 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.fyro-auth { color: #242725; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
-.fyro-auth-paper { background: #f4f0e8; }
-.fyro-auth-signal { opacity: .2; background: radial-gradient(ellipse at 20% 28%, transparent 0 12%, rgba(182,58,43,.14) 12.2% 12.4%, transparent 12.6%), radial-gradient(ellipse at 84% 72%, transparent 0 16%, rgba(36,39,37,.1) 16.2% 16.35%, transparent 16.6%); }
-.fyro-auth-logo { border-radius: 8px; mix-blend-mode: multiply; }
-.fyro-auth-logo img { width: 140%; height: 140%; object-fit: contain; }
-.fyro-auth-title { color: #242725; font-family: "Songti SC", "STSong", "Noto Serif SC", Georgia, serif; letter-spacing: .02em; }
-.fyro-auth-subtitle, .fyro-auth-footer { color: #61665e; }
-.fyro-auth-card { background: rgba(250,248,242,.82); border: 1px solid rgba(36,39,37,.14); box-shadow: 0 20px 50px rgba(36,39,37,.09); }
-:global(.dark) .fyro-auth-paper { background: #1e211f; }
-:global(.dark) .fyro-auth { color: #f4f0e8; }
-:global(.dark) .fyro-auth-title { color: #f4f0e8; }
-:global(.dark) .fyro-auth-card { background: rgba(36,39,37,.92); border-color: rgba(244,240,232,.18); }
-:global(.dark) .fyro-auth-logo { mix-blend-mode: normal; background: #f4f0e8; }
+.fyro-auth { min-height: 100svh; padding: 3rem 2rem 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+.fyro-auth-shell { width: 100%; max-width: 1080px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); align-items: center; gap: clamp(3rem, 8vw, 7rem); }
+.fyro-auth-intro, .fyro-auth-panel { min-width: 0; }
+.fyro-auth-brand { display: flex; align-items: center; gap: 1rem; width: fit-content; max-width: 100%; }
+.fyro-auth-brand img { width: 64px; height: 64px; object-fit: contain; flex-shrink: 0; }
+.fyro-auth-brand h1 { font-family: var(--fyro-display); font-size: 2rem; line-height: 1.4; overflow-wrap: anywhere; }
+.fyro-auth-subtitle { margin-top: 1.5rem; font-size: 1.125rem; line-height: 1.8; color: var(--fyro-muted); overflow-wrap: anywhere; }
+.fyro-auth-art { margin-top: 2.5rem; isolation: isolate; }
+.fyro-auth-art img { width: 100%; height: auto; mix-blend-mode: multiply; }
+.fyro-auth-card { padding: 2rem; background: var(--fyro-surface); border: 1px solid var(--fyro-line); border-radius: 6px; box-shadow: 0 12px 40px rgb(36 39 37 / 4%); }
+.fyro-auth-links { margin-top: 1.5rem; text-align: center; font-size: .875rem; }
+.fyro-auth-footer { margin-top: 3rem; text-align: center; color: var(--fyro-muted); font-size: .75rem; }
+:global(.dark) .fyro-auth-art { background: #f4f0e8; border-radius: 4px; }
+:global(.dark) .fyro-auth-art img { mix-blend-mode: normal; }
+@media (max-width: 767px) {
+  .fyro-auth { padding: 1.75rem 1rem 1.25rem; }
+  .fyro-auth-shell { max-width: 440px; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .fyro-auth-brand { margin-inline: auto; gap: .75rem; }
+  .fyro-auth-brand h1 { font-size: 1.5rem; }
+  .fyro-auth-brand img { width: 48px; height: 48px; }
+  .fyro-auth-subtitle { margin-top: .75rem; text-align: center; font-size: .875rem; }
+  .fyro-auth-art { display: none; }
+  .fyro-auth-card { padding: 1.5rem; }
+}
 </style>

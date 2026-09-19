@@ -13,6 +13,13 @@ describe('updateFavicon', () => {
     expect(link?.href).toBe('https://example.com/custom-logo.png')
   })
 
+  it('sets the correct MIME type for WebP favicons', () => {
+    updateFavicon('/brand/fyroworks-favicon.webp')
+
+    const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]')
+    expect(link?.type).toBe('image/webp')
+  })
+
   it('ignores unsafe logo URLs', () => {
     updateFavicon('javascript:alert(1)')
 

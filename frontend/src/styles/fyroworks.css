@@ -1,0 +1,44 @@
+/* Public pages share the established FyroWorks paper-and-ink palette. */
+.fyro-public {
+  --fyro-paper: #f4f0e8;
+  --fyro-surface: #faf8f2;
+  --fyro-ink: #242725;
+  --fyro-muted: #61665e;
+  --fyro-line: #d9d5cb;
+  --fyro-accent: #b63a2b;
+  --fyro-display: "Songti SC", "STSong", "Noto Serif SC", Georgia, serif;
+  background: var(--fyro-paper);
+  color: var(--fyro-ink);
+}
+.dark .fyro-public {
+  --fyro-paper: #1e211f;
+  --fyro-surface: #282c29;
+  --fyro-ink: #f4f0e8;
+  --fyro-muted: #b9beb5;
+  --fyro-line: #454b44;
+  --fyro-accent: #e28c78;
+}
+.fyro-public :is(h1, h2, h3) { color: var(--fyro-ink); }
+.fyro-public :is(.text-gray-500, .text-gray-600) { color: var(--fyro-muted); }
+.fyro-public :is(a, button, input):focus-visible {
+  outline: 2px solid var(--fyro-accent);
+  outline-offset: 4px;
+}
+.fyro-public .btn-primary { border-radius: 4px; box-shadow: none; }
+.fyro-auth .input {
+  background: var(--fyro-paper);
+  border-color: var(--fyro-line);
+  color: var(--fyro-ink);
+  border-radius: 4px;
+}
+.fyro-auth .input-error { border-color: #dc2626; }
+.fyro-auth .input:focus { border-color: var(--fyro-accent); }
+.fyro-auth .input-label { color: var(--fyro-ink); }
+.fyro-compact h1 { font-family: var(--fyro-display); font-weight: 400; }
+@media (prefers-reduced-motion: reduce) {
+  .fyro-public *, .fyro-public *::before, .fyro-public *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
