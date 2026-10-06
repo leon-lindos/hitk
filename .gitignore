@@ -133,8 +133,8 @@ deploy/docker-compose.override.yml
 .gocache/
 vite.config.js
 docs/*
-!docs/fyroworks/
-!docs/fyroworks/**
+!docs/hitk/
+!docs/hitk/**
 !docs/PAYMENT.md
 !docs/PAYMENT_CN.md
 !docs/ADMIN_PAYMENT_INTEGRATION_API.md
@@ -163,9 +163,6 @@ issues/
 .vite/
 # 本地闭源插件开发目录及构建产物不进入 Sub2API 仓库
 /plugins/
-
-# 部署服务器 SSH 密钥（仅限本机使用）
-/oracle-jp-secret/
 
 # 本地预览截图
 /preview-*.png
