@@ -1,5 +1,7 @@
+import { applyHitkTheme } from './src/hitk/theme.js'
+
 /** @type {import('tailwindcss').Config} */
-export default {
+const config = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
@@ -132,3 +134,5 @@ export default {
   },
   plugins: []
 }
+
+export default applyHitkTheme(config)

@@ -135,6 +135,8 @@ vite.config.js
 docs/*
 !docs/hitk/
 !docs/hitk/**
+# The vendored thinking-orbs engine is source code, not a Go vendor directory.
+!frontend/src/hitk/vendor/
 !docs/PAYMENT.md
 !docs/PAYMENT_CN.md
 !docs/ADMIN_PAYMENT_INTEGRATION_API.md

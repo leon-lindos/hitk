@@ -12,3 +12,6 @@ dist/
 # 忽略缓存
 .cache/
 .vite/
+
+# HiTK：原样拷入的 thinking-orbs 引擎（校验值见 src/hitk/THIRD_PARTY_NOTICES.md），不做 lint / 自动修复
+src/hitk/vendor/

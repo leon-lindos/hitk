@@ -230,6 +230,8 @@
 </template>
 
 <script setup lang="ts">
+import { traditionalInline } from '@/hitk/inline-zh-TW'
+import { japaneseInline } from '@/hitk/inline-ja'
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { adminAPI } from "@/api";
@@ -336,7 +338,7 @@ interface EventDisplayMeta {
 }
 
 function localText(zh: string, en: string): string {
-  return locale.value.toLowerCase().startsWith("zh") ? zh : en;
+  return locale.value === "ja" ? japaneseInline(zh) : locale.value === "zh-TW" ? traditionalInline(zh) : locale.value.toLowerCase().startsWith("zh") ? zh : en;
 }
 
 const eventDisplayMeta: Record<string, EventDisplayMeta> = {
@@ -475,7 +477,7 @@ function normalizeEventOption(option: EmailTemplateEventOption): EmailTemplateOp
 function eventMetaFor(option?: EmailTemplateOption | null) {
   if (!option) return null;
   const displayMeta = (
-    locale.value.toLowerCase().startsWith("zh")
+    (locale.value === "ja" || locale.value.toLowerCase().startsWith("zh"))
       ? eventDisplayMeta
       : eventDisplayMetaEn
   )[option.value];
@@ -484,9 +486,9 @@ function eventMetaFor(option?: EmailTemplateOption | null) {
   const categoryLabel =
     displayMeta?.categoryLabel || formatCategory(option.category || "");
   return {
-    label,
-    timing,
-    categoryLabel,
+    label: locale.value === "ja" ? japaneseInline(label) : locale.value === "zh-TW" ? traditionalInline(label) : label,
+    timing: locale.value === "ja" ? japaneseInline(timing) : locale.value === "zh-TW" ? traditionalInline(timing) : timing,
+    categoryLabel: locale.value === "ja" ? japaneseInline(categoryLabel) : locale.value === "zh-TW" ? traditionalInline(categoryLabel) : categoryLabel,
     optional: option.optional === true,
   };
 }

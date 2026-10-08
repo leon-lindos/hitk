@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import { traditionalInline } from '@/hitk/inline-zh-TW'
+import { japaneseInline } from '@/hitk/inline-ja'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -52,7 +54,7 @@ const { t, locale } = useI18n()
 const providerName = computed(() => t('auth.wechatProviderName'))
 
 function localizeWeChatHint(zh: string, en: string): string {
-  return locale.value.startsWith('zh') ? zh : en
+  return locale.value === 'ja' ? japaneseInline(zh) : locale.value === 'zh-TW' ? traditionalInline(zh) : locale.value.startsWith('zh') ? zh : en
 }
 
 const resolvedStart = computed(() => resolveWeChatOAuthStart(appStore.cachedPublicSettings))

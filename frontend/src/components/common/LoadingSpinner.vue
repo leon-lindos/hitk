@@ -1,9 +1,6 @@
 <template>
-  <div
-    :class="['spinner', sizeClasses, colorClass]"
-    role="status"
-    :aria-label="t('common.loading')"
-  >
+  <div class="inline-block align-middle" role="status" :aria-label="t('common.loading')">
+    <ThinkingOrb state="working" :size="orbSize" :theme="color === 'white' ? 'dark' : 'auto'" />
     <span class="sr-only">{{ t('common.loading') }}</span>
   </div>
 </template>
@@ -11,6 +8,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import ThinkingOrb from '@/hitk/ThinkingOrb.vue'
 
 const { t } = useI18n()
 
@@ -27,39 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'primary'
 })
 
-const sizeClasses = computed(() => {
-  const sizes: Record<SpinnerSize, string> = {
-    sm: 'w-4 h-4 border-2',
-    md: 'w-8 h-8 border-2',
-    lg: 'w-12 h-12 border-[3px]',
-    xl: 'w-16 h-16 border-4'
-  }
-  return sizes[props.size]
-})
-
-const colorClass = computed(() => {
-  const colors: Record<SpinnerColor, string> = {
-    primary: 'text-primary-500',
-    secondary: 'text-gray-500 dark:text-dark-400',
-    white: 'text-white',
-    gray: 'text-gray-400 dark:text-dark-500'
-  }
-  return colors[props.color]
-})
+// HiTK: thinking orbs 的 working 球代替转圈
+const orbSize = computed(() => ({ sm: 16, md: 32, lg: 48, xl: 64 })[props.size])
 </script>
 
-<style scoped>
-.spinner {
-  @apply inline-block rounded-full border-solid border-current border-r-transparent;
-  animation: spin 0.75s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

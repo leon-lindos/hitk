@@ -1,13 +1,16 @@
 <template>
-  <div class="relative" ref="dropdownRef">
+  <div class="relative shrink-0" ref="dropdownRef" @keydown.esc="isOpen = false">
     <button
+      ref="triggerRef"
+      type="button"
       @click="toggleDropdown"
       :disabled="switching"
       class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-700"
       :title="currentLocale?.name"
+      aria-label="Language / 语言 / 語言 / 言語"
+      :aria-expanded="isOpen"
     >
-      <span class="text-base">{{ currentLocale?.flag }}</span>
-      <span class="hidden sm:inline">{{ currentLocale?.code.toUpperCase() }}</span>
+      <span>{{ currentLocale?.shortName }}</span>
       <Icon
         name="chevronDown"
         size="xs"
@@ -22,18 +25,20 @@
         class="absolute right-0 z-50 mt-1 w-32 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-dark-700 dark:bg-dark-800"
       >
         <button
+          type="button"
           v-for="locale in availableLocales"
           :key="locale.code"
           :disabled="switching"
           @click="selectLocale(locale.code)"
+          @mouseenter="prefetchLocale(locale.code)"
+          @focus="prefetchLocale(locale.code)"
           class="flex w-full items-center gap-2 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-dark-700"
           :class="{
             'bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400':
               locale.code === currentLocaleCode
           }"
         >
-          <span class="text-base">{{ locale.flag }}</span>
-          <span>{{ locale.name }}</span>
+          <span :lang="locale.code">{{ locale.name }}</span>
           <Icon v-if="locale.code === currentLocaleCode" name="check" size="sm" class="ml-auto text-primary-500" />
         </button>
       </div>
@@ -45,13 +50,15 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Icon from '@/components/icons/Icon.vue'
-import { setLocale, availableLocales } from '@/i18n'
+import { setLocale, availableLocales, isLocaleSwitching as switching, prefetchLocale } from '@/i18n'
+import { useAppStore } from '@/stores/app'
 
 const { locale } = useI18n()
+const appStore = useAppStore()
 
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)
-const switching = ref(false)
+const triggerRef = ref<HTMLButtonElement | null>(null)
 
 const currentLocaleCode = computed(() => locale.value)
 const currentLocale = computed(() => availableLocales.find((l) => l.code === locale.value))
@@ -65,12 +72,12 @@ async function selectLocale(code: string) {
     isOpen.value = false
     return
   }
-  switching.value = true
+  isOpen.value = false
+  triggerRef.value?.focus({ preventScroll: true })
   try {
     await setLocale(code)
-    isOpen.value = false
-  } finally {
-    switching.value = false
+  } catch {
+    appStore.showError(currentLocale.value?.loadError ?? availableLocales[0].loadError)
   }
 }
 

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import adminComplianceAPI, { type AdminComplianceStatus } from '@/api/admin/compliance'
 import { getLocale } from '@/i18n'
 
+// Keep the source agreement and acknowledgment verbatim; the backend checks the exact phrase.
 const FALLBACK_ZH_PHRASE = '我已阅读、理解并同意 Sub2API 部署与运营合规承诺'
 const FALLBACK_EN_PHRASE = 'I have read, understood, and agree to the Sub2API Deployment and Operation Compliance Commitment'
 
@@ -17,7 +18,7 @@ export const useAdminComplianceStore = defineStore('adminCompliance', () => {
   const shouldShow = computed(() => required.value || forceVisible.value)
   const currentLocale = computed(() => getLocale())
   const expectedPhrase = computed(() => {
-    if (currentLocale.value === 'zh') {
+    if (currentLocale.value.startsWith('zh')) {
       return status.value?.ack_phrase_zh || FALLBACK_ZH_PHRASE
     }
     return status.value?.ack_phrase_en || FALLBACK_EN_PHRASE

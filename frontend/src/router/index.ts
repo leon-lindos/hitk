@@ -36,7 +36,18 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/HomeView.vue'),
     meta: {
       requiresAuth: false,
-      title: 'Home'
+      title: 'Token API'
+    }
+  },
+  {
+    path: '/private-platform',
+    name: 'PrivatePlatform',
+    component: () => import('@/views/HomeView.vue'),
+    props: { service: 'private-platform' },
+    meta: {
+      requiresAuth: false,
+      title: 'TokenOS',
+      titleKey: 'hitk.privatePlatform'
     }
   },
   {
